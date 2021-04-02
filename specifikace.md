@@ -44,9 +44,10 @@ Pokud vozík nakládá prioritní materiál, přepíná se do režimu pouze-vykl
 
 - Není jednoznačné, co se myslí prioritním materiálem.
 - Chybí zde "else" případ.
+- Výraz "nakládá" není konsistentní.
 
-*Pokud vozík nakládá materiál s nastavenou prioritní vlastností, přepíná se do
-režimu pouze-vykládka. Pokud vozík nakládá materiál, který nemá nastavenou
+*Pokud vozík vyzvedává materiál s nastavenou prioritní vlastností, přepíná se do
+režimu pouze-vykládka. Pokud vozík vyzvedává materiál, který nemá nastavenou
 prioritní vlastnost, nepřepíná se do režimu pouze-vykládka.*
 
 
