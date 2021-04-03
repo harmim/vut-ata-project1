@@ -1,0 +1,53 @@
+Causes:
+1: nastavení klasického požadavku
+2: časová fáze < 1 minuta od nastavení klasického požadavku
+3: vyzvednutí materiálu ve fázi 2
+4: časová fáze >= 1 minuta od nastavení klasického požadavku
+5: nastavení prioritního požadavku
+6: časová fáze < 1 minuta od nastavení prioritního požadavku
+7: vyvzvednutí materiálu ve fázi 6
+8: časová fáze >= 1 minuta od nastavení prioritního požadavku
+9: vozík je nastaven v režimu pouze_vykládka
+10: vozík má naložený materiál s prioritní vlastností
+11: vozík má volný alespoň 1 slot
+12: vyzvednutím daného materiálu nebude překročena maximální nosnost vozíku
+
+Effects:
+50: nastavení prioritní vlastnosti materiálu
+51: zpracování klasického požadavku a naložení materiálu bez prioritní vlastnosti
+52: nastavení prioritního požadavku
+53: zpracování prioritního požadavku a naložení materiálu s prioritní vlastností
+54: vyvolání JISTÉ výjimky
+55: přepnutí do režimu pouze_vykládka
+56: vozík nemůže vyzvedávat žádné materiály a může pouze vykládat materiály s nastavenou prioritní vlastností
+57: zůstat v režimu pouze_vykládka
+
+Rules:
+50 = 4
+51 = 3 && 11 && 12
+52 = 4
+53 = 7 && 11 && 12
+54 = 8
+55 = 7
+56 = 9
+57 = 9 && 10
+
+Constraints:
+// časová souslednost
+4 -> 2
+6 -> 4
+8 -> 6
+// časová náležitost
+3 -> 2
+5 -> 4
+7 -> 6
+// podmínky využití fází
+2 -> 1
+4 -> 5
+// logické vazby
+1 -> 2
+5 -> 6
+9 -> 7
+10 -> 7
+E: 3, 4
+E: 7, 8
