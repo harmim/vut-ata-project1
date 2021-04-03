@@ -5,14 +5,13 @@ materiál vyzvedne do 1 minuty.
 - "je požadováno" není úplně jednoznačné. Sjednoceno na jednoznačný výraz
   "nastavení požadavku".
 - Sjednocení výrazů "náklad" a "materiál".
-- Není zde zmínka o nastavení prioritní vlastnosti.
 - Není jasné, co se myslí "místem".
 - Chybí zde důsledek.
 
-*Pokud je nastaven požadavek na přemístění materiálu z jedné stanice do druhé,
-tak se tomuto materiálu nenastavuje prioritní vlastnost. Pokud si vozík tento
-materiál vyzvedne do 1 minuty od nastavení tohoto požadavku, tak bude tento
-požadavek zpracován a tento materiál bude na vozík naložen.*
+*Pokud je nastaven požadavek na přemístění materiálu z jedné stanice do druhé a
+pokud si vozík tento materiál vyzvedne do 1 minuty od nastavení tohoto
+požadavku, tak bude tento požadavek zpracován a tento materiál bude na vozík
+naložen.*
 
 
 Pokud se to nestihne, materiálu se nastavuje prioritní vlastnost.
