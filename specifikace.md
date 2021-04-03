@@ -6,12 +6,13 @@ materiál vyzvedne do 1 minuty.
   "nastavení požadavku".
 - Sjednocení výrazů "náklad" a "materiál".
 - Není zde zmínka o nastavení prioritní vlastnosti.
-- "else" případ je v následující větě.
 - Není jasné, co se myslí "místem".
+- Chybí zde důsledek.
 
 *Pokud je nastaven požadavek na přemístění materiálu z jedné stanice do druhé,
-vozík si materiál vyzvedne do 1 minuty od nastavení tohoto požadavku a zároveň
-se tomuto materiálu nenastavuje prioritní vlastnost.*
+tak se tomuto materiálu nenastavuje prioritní vlastnost. Pokud si vozík tento
+materiál vyzvedne do 1 minuty od nastavení tohoto požadavku, tak bude tento
+požadavek zpracován a tento materiál bude na vozík naložen.*
 
 
 Pokud se to nestihne, materiálu se nastavuje prioritní vlastnost.
@@ -32,12 +33,14 @@ prioritního požadavku.
 - Chybí zde "else" případ. Měla by se vyvolat JISTÁ výjimka. Reálně by
   samozřejmě mělo být definované, jaká přesně výjimka se vyvolá.
 - Není jednoznačné, čeho se požadavek týká.
+- Chybí zde důsledek.
 
-*Každý materiál s nastavenou prioritní vlastností musí být vyzvednutý vozíkem
-do 1 minuty od nastavení prioritního požadavku na přemístění tohoto materiálu.
-Pokud materiál s nastavenou prioritní vlastností není vyzvednut do 1 minuty od
-nastavení prioritního požadavku na přemístění tohoto materiálu, vyvolává se
-JISTÁ výjimka.*
+*Pokud je materiál s nastavenou prioritní vlastností vyzvednutý vozíkem do 1
+minuty od nastavení prioritního požadavku na přemístění tohoto materiálu, tak
+bude tento prioritní požadavek zpracován a tento materiál s nastavenou prioritní
+vlastností bude na vozík naložen. Pokud materiál s nastavenou prioritní
+vlastností není vyzvednut do 1 minuty od nastavení prioritního požadavku na
+přemístění tohoto materiálu, vyvolává se JISTÁ výjimka.*
 
 
 Pokud vozík nakládá prioritní materiál, přepíná se do režimu pouze-vykládka.
@@ -80,8 +83,9 @@ Na jednom místě může vozík akceptovat nebo vyložit jeden i více materiál
 
 - Není jasné, co se myslí "místem".
 - Výraz "akceptovat" není konsistentní.
+- Spojka "nebo" zde není moc vhodná.
 
-*V jedné stanici může vozík vyzvedávat nebo vykládat jeden i více materiálů.*
+*V jedné stanici může vozík vyzvedávat i vykládat jeden i více materiálů.*
 
 
 Pořadí vyzvednutí materiálu nesouvisí s pořadím vytváření požadavku.
