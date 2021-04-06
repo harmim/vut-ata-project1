@@ -38,6 +38,9 @@ jsou pokryty všechny příčiny i důsledky.
 
 ## Identifikace vstupních parametrů
 
+Existují i jiné vstupní parametry. Parametry níže jsou však pro kombinační
+testování daného systému asi nejzajímavější.
+
 | ID parametru     | Popis                                               |
 | ---------------- | --------------------------------------------------- |
 | `req_count`      | celkový počet naplánovaných požadavků               |
@@ -47,3 +50,65 @@ jsou pokryty všechny příčiny i důsledky.
 | `req_track`      | trasa jednoho požadavku (zdrojová a cílová stanice) |
 | `cart_slots`     | počet slotů vozíku                                  |
 | `cart_cap`       | maximální nosnost vozíku                            |
+
+
+## Charakteristiky vstupních parametrů
+
+| `C_req_count` | počet naplánovaných požadavků |
+| ------------- | ----------------------------- |
+|             1 | `C_req_count = 0`             |
+|             2 | `C_req_count = 1`             |
+|             3 | `C_req_count > 1`             |
+
+| `C_req_when` | čas naplánování požadavku (u alespoň jednoho požadavku) |
+| ------------ | ------------------------------------------------------- |
+|            1 | `C_req_when = 0`                                        |
+|            2 | `C_req_when > 0`                                        |
+
+| `C_req_same_time` | naplánování více požadavků na stejný čas |
+| ----------------- | ---------------------------------------- |
+|                 1 | `true`                                   |
+|                 2 | `false`                                  |
+
+| `C_req_same_track` | naplánování více požadavků se stejnou trasou |
+| ------------------ | -------------------------------------------- |
+|                  1 | `true`                                       |
+|                  2 | `false`                                      |
+
+| `C_req_sum_weight` | suma vah všech požadavků |
+| ------------------ | ------------------------ |
+|                  1 | `C_req_sum_weight = 0`   |
+|                  2 | `C_req_sum_weight > 0`   |
+
+| `C_req_sum_weight_gt_cart_cap` | suma vah všech požadavků je větší než maximální nosnost vozíku |
+| ------------------------------ | -------------------------------------------------------------- |
+|                              1 | `true`                                                         |
+|                              2 | `false`                                                        |
+
+| `C_req_weight` | váha požadavku (u alespoň jednoho požadavku) |
+| -------------- | -------------------------------------------- |
+|              1 | `C_req_weight = 0`                           |
+|              2 | `C_req_weight > 0`                           |
+
+| `C_req_weight_gt_cart_cap` | váha jednoho požadavku je větší než maximální nosnost vozíku (u alespoň jednoho požadavku) |
+| -------------------------- | ------------------------------------------------------------------------------------------ |
+|                          1 | `true`                                                                                     |
+|                          2 | `false`                                                                                    |
+
+| `C_req_track_edges` | minimální počet hran mezi zdrojovou a cílovou stanicí (u alespoň jednoho požadavku) |
+| ------------------- | ----------------------------------------------------------------------------------- |
+|                   1 | `C_req_track_edges = 0`                                                             |
+|                   2 | `C_req_track_edges = 1`                                                             |
+|                   3 | `C_req_track_edges > 1`                                                             |
+
+| `C_cart_slots` | počet slotů vozíku |
+| -------------- | ------------------ |
+|              1 |                  1 |
+|              2 |                  2 |
+|              3 |               3, 4 |
+
+| `C_cart_cap` | maximální nosnost vozíku |
+| ------------ | ------------------------ |
+|            1 |                       50 |
+|            2 |                      150 |
+|            3 |                      500 |
