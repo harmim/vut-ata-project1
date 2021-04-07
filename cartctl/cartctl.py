@@ -1,20 +1,25 @@
 #!/usr/bin/env python3
+
 """
 Cart Controller in a factory
 """
+
 import enum
-import sched
-import collections
+
 import cart
 
+
 class Status(enum.Enum):
-    "Controller status"
-    Normal = 0      # normal behaviour
+    """ Controller status """
+
+    Normal = 0  # normal behaviour
     UnloadOnly = 1  # must unload only
-    Idle = 2        # controller does not know what to do at the moment
+    Idle = 2  # controller does not know what to do at the moment
+
 
 class CartCtl:
-    "Cart controller"
+    """ Cart controller """
+
     def __init__(self, cart_device, factory):
         self.cart = cart_device
         self.time = factory.time
@@ -28,26 +33,26 @@ class CartCtl:
         self.only_unload = False
 
     def request(self, new_cargo: cart.CargoReq):
-        "enqueue a new request for transfer"
+        """ enqueue a new request for transfer """
         self.requests.append(new_cargo)
         new_cargo.born = self.time()
         if self.status == Status.Idle:
             self.plan(0, self.heartbeat)
 
     def sched_unload(self, slot):
-        "schedule the unload"
+        """ schedule the unload """
         # should not be constrained
         # from now, after 2 tics, perform unload
         self.cart.start_unloading(slot)
         self.plan(2, self.perform_unload)
 
     def perform_unload(self):
-        "proceed unloading current slot"
+        """ proceed unloading current slot """
         self.cart.finish_unloading()
         self.plan(0, self.heartbeat)
 
     def try_unload_here_single(self):
-        "unload what is possible"
+        """ unload what is possible """
         for slot in range(len(self.cart.slots)):
             cargo_req = self.cart.slots[slot]
             if cargo_req is None:
@@ -58,18 +63,18 @@ class CartCtl:
         return -1
 
     def sched_load(self, slot, request_idx):
-        "schedule the load"
+        """ schedule the load """
         self.cart.start_loading(self.requests[request_idx], slot)
         self.plan(2, self.perform_load)
 
     def perform_load(self):
-        "proceed loading some cargo from current pos"
+        """ proceed loading some cargo from current pos """
         cargo_req = self.cart.finish_loading()
         self.requests.remove(cargo_req)
         self.plan(0, self.heartbeat)
 
     def try_load_here_single(self):
-        "load here to a single slot, if there is something here"
+        """ load here to a single slot, if there is something here """
         free_slot = self.cart.get_free_slot()
         if free_slot == -1:
             # no free slot
@@ -82,18 +87,18 @@ class CartCtl:
             request = self.requests[request_idx]
             if request.src == self.cart.pos and request.weight <= free_cap:
                 if (self.status == Status.UnloadOnly and request.prio) or \
-                   (self.status != Status.UnloadOnly and not request.prio):
+                        (self.status != Status.UnloadOnly and not request.prio):
                     self.sched_load(free_slot, request_idx)
                     return free_slot
         return -1
 
     def sched_move(self, track):
-        "schedule a move"
+        """ schedule a move """
         self.cart.start_moving(track.dst)
         self.plan(track.cost, self.perform_move)
 
     def perform_move(self):
-        "move has been done"
+        """ move has been done """
         self.cart.finish_moving()
         self.plan(0, self.heartbeat)
 
@@ -105,29 +110,29 @@ class CartCtl:
         free_slot = self.cart.get_free_slot()
         if free_slot == -1:
             # no free slot
-            return (-1, -1)
+            return -1, -1
         free_cap = self.cart.load_capacity - self.cart.load_sum()
         if free_cap <= 0:
             # no free capacity
-            return (-1, -1)
+            return -1, -1
         for request_idx in range(len(self.requests)):
             request = self.requests[request_idx]
             if request.weight <= free_cap:
                 if priority:
                     if self.status == Status.UnloadOnly and request.prio:
-                        return (free_slot, request_idx)
+                        return free_slot, request_idx
                 else:
                     if (self.status == Status.UnloadOnly and request.prio) or \
-                       (self.status != Status.UnloadOnly and not request.prio):
-                        return (free_slot, request_idx)
-        return (-1, -1)
+                            (self.status != Status.UnloadOnly and not request.prio):
+                        return free_slot, request_idx
+        return -1, -1
 
     def sort_requests(self):
-        "sorts requests wrt. priority"
-        self.requests.sort(key=lambda i: (1-i.prio)*10**6+i.born, reverse=True)
+        """ sorts requests wrt. priority """
+        self.requests.sort(key=lambda i: (1 - i.prio) * 10 ** 6 + i.born, reverse=True)
 
     def update_prio_requests(self):
-        "update prio in each of requests if it waits too long"
+        """ update prio in each of requests if it waits too long """
         curr_time = self.time()
         for cargo_req in self.requests:
             if curr_time - cargo_req.born >= 60:
@@ -135,14 +140,14 @@ class CartCtl:
         self.sort_requests()
 
     def find_prio_request(self):
-        "return prioritized Load waiting in requests, or None."
+        """ return prioritized Load waiting in requests, or None. """
         for cargo_req in self.requests:
             if cargo_req.prio:
                 return cargo_req
         return None
 
     def heartbeat(self):
-        "main controlling loop"
+        """ main controlling loop """
         # update environment
         self.update_prio_requests()
         # check environment
@@ -196,14 +201,14 @@ class CartCtl:
         self.status = Status.Idle
 
     def evaluate_all_paths(self):
-        "finds all paths for all cargo"
-        paths = [self.tracks.get_path(self.cart.pos, l.dst) if l else None \
-            for l in self.cart.slots]
+        """ finds all paths for all cargo """
+        paths = [self.tracks.get_path(self.cart.pos, l.dst) if l else None
+                 for l in self.cart.slots]
         return paths
 
     @staticmethod
     def eval_cost(path):
-        "calculate the cost of the path"
+        """ calculate the cost of the path """
         sum_cost = 0
         for track in path:
             sum_cost += track.cost
@@ -211,7 +216,7 @@ class CartCtl:
 
     @staticmethod
     def find_fastest_slot(paths):
-        "finds index of the occupied slot with shortest destination"
+        """ finds index of the occupied slot with shortest destination """
         costs = [CartCtl.eval_cost(path) if path else None for path in paths]
         minidx = None
         for idx in range(len(costs)):

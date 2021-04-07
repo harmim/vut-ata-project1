@@ -10,4 +10,4 @@ verb:
 	dot -Tpng -o $@ $<
 
 jarvis.gv: jarvisenv.py
-	python -c 'import jarvisenv; jarvisenv.JARVIS_TRACKS.export("jarvis.gv")'
+	python3 -c 'import jarvisenv; jarvisenv.Jarvis.TRACKS.export("jarvis.gv")'

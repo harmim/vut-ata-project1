@@ -2,11 +2,13 @@
 Jarvis factory simulation environment.
 """
 
-import factory
 import sched
 
+import factory
+
+
 class Jarvis(factory.Factory):
-    "Jarvis factory"
+    """ Jarvis factory """
 
     TRACKS = factory.Tracks([
         # From -> To -> Cost
@@ -22,31 +24,31 @@ class Jarvis(factory.Factory):
 
     @staticmethod
     def get_tracks():
-        "returns all the Jarvis tracks"
+        """ returns all the Jarvis tracks """
         return Jarvis.TRACKS
 
     @staticmethod
     def reset_scheduler():
-        "resets scheduler for text fixture"
+        """ resets scheduler for text fixture """
         Jarvis.SIMULATION_TIME = 0
         Jarvis.SCHED = sched.scheduler(Jarvis.time, Jarvis._sleep)
 
     @staticmethod
     def plan(when: int, event, argument=(), kwargs={}):
-        "plans the event of the factory"
+        """ plans the event of the factory """
         Jarvis.SCHED.enter(when, 0, event, argument, kwargs)
 
     @staticmethod
     def run():
-        "runs the plan"
+        """ runs the plan """
         Jarvis.SCHED.run()
 
     @staticmethod
     def time():
-        "returns absolut simulation time"
+        """ returns absolut simulation time """
         return Jarvis.SIMULATION_TIME
 
     @staticmethod
     def _sleep(delay):
-        "force simulation time to progress"
+        """ force simulation time to progress """
         Jarvis.SIMULATION_TIME += delay
