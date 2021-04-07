@@ -1,0 +1,93 @@
+{
+  "name": "Řízení vozíku v robotické továrně",
+  "t_strength": "2",
+  "dont_care_values": "no",
+  "values": "indices",
+  "parameters": [
+    {
+      "identificator": "C_req_track_edges",
+      "type": "integer",
+      "blocks": [
+        "C_req_track_edges = 0",
+        "C_req_track_edges = 1",
+        "C_req_track_edges > 1"
+      ]
+    },
+    {
+      "identificator": "C_cart_slots",
+      "type": "integer",
+      "blocks": [
+        "C_cart_slots = 1",
+        "C_cart_slots = 2",
+        "C_cart_slots = 3 or C_cart_slots = 4"
+      ]
+    },
+    {
+      "identificator": "C_cart_cap",
+      "type": "integer",
+      "blocks": [
+        "C_cart_cap = 50",
+        "C_cart_cap = 150",
+        "C_cart_cap = 500"
+      ]
+    },
+    {
+      "identificator": "C_req_count",
+      "type": "integer",
+      "blocks": [
+        "C_req_count = 1",
+        "C_req_count > 1"
+      ]
+    },
+    {
+      "identificator": "C_req_when",
+      "type": "integer",
+      "blocks": [
+        "C_req_when = 0",
+        "C_req_when > 0"
+      ]
+    },
+    {
+      "identificator": "C_req_same_time",
+      "type": "boolean",
+      "blocks": [
+        false,
+        true
+      ]
+    },
+    {
+      "identificator": "C_req_same_track",
+      "type": "boolean",
+      "blocks": [
+        false,
+        true
+      ]
+    },
+    {
+      "identificator": "C_req_sum_weight_gt_cart_cap",
+      "type": "boolean",
+      "blocks": [
+        false,
+        true
+      ]
+    },
+    {
+      "identificator": "C_req_weight_gt_cart_cap",
+      "type": "boolean",
+      "blocks": [
+        false,
+        true
+      ]
+    }
+  ],
+  "constraints": [
+    "C_req_count.1 -> !C_req_same_time.1",
+    "C_req_count.1 -> !C_req_same_track.1",
+    "C_req_same_time.1 -> C_req_count.2",
+    "C_req_same_track.1 -> C_req_count.2",
+    "C_req_sum_weight_gt_cart_cap.2 -> !C_req_weight_gt_cart_cap.1",
+    "C_req_weight_gt_cart_cap.1 -> !C_req_sum_weight_gt_cart_cap.2",
+    "C_cart_cap.1 -> !C_cart_slots.1",
+    "C_cart_cap.3 -> !C_cart_slots.3"
+  ]
+}
