@@ -7,7 +7,7 @@ PACK := proj1.zip
 pack: $(PACK)
 
 $(PACK): specifikace.md ceg.txt ceg.json ceg.png combine.json combine.png testy.md cartctl/
-	zip -r $@ $^
+	zip -r -9 $@ $^
 
 
 .PHONY: clean
