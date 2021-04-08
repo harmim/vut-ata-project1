@@ -12,7 +12,7 @@ jsou pokryty všechny příčiny i důsledky.
 
 ### Rozhodovací tabulka
 
-| Name   | Description                                                                                               | [1]     | [2]     | [3]     | [4]     | [5]     |
+| Name   | Description                                                                                               |     `1` |     `2` |     `3` |     `4` |     `5` |
 | :----: | --------------------------------------------------------------------------------------------------------- | :-----: | :-----: | :-----: | :-----: | :-----: |
 |    `1` | nastavení klasického požadavku                                                                            |       0 |       1 |       1 |       1 |       1 |
 |    `2` | časová fáze `< 1 minuta` od nastavení klasického požadavku                                                |       0 |       1 |       1 |       1 |       1 |
@@ -126,18 +126,57 @@ opraveny a označeny oranžově.** Tabulka níže odpovídá opravené tabulce
 vygenerované nástrojem Combine. Jednotlivé hodnoty odpovídají indexům bloků
 daných charakteristik.
 
-| Test Case ID | `C_req_track_edges` | `C_cart_slots` | `C_cart_cap` | `C_req_count` | `C_req_when` | `C_req_same_time` | `C_req_same_track` | `C_req_sum_weight_gt_cart_cap` | `C_req_weight_gt_cart_cap` |
-| :----------: | :-----------------: | :------------: | :----------: | :-----------: | :----------: | :---------------: | :----------------: | :----------------------------: | :------------------------: |
-|            1 |                   1 |              1 |            2 |             1 |            1 |                 2 |                  2 |                              1 |                          1 |
-|            2 |                   1 |              2 |            1 |             2 |            2 |                 1 |                  1 |                              2 |                          2 |
-|            3 |                   1 |              3 |            1 |             1 |            1 |                 2 |                  2 |                              2 |                          2 |
-|            4 |                   2 |              1 |            3 |             2 |            1 |                 1 |                  1 |                              1 |                          1 |
-|            5 |                   2 |              2 |            2 |             1 |            2 |                 2 |                  2 |                              1 |                          2 |
-|            6 |                   2 |              3 |            1 |             2 |            2 |                 1 |                  2 |                              1 |                          1 |
-|            7 |                   3 |              1 |            2 |             2 |            2 |                 1 |                  1 |                              2 |                          2 |
-|            8 |                   3 |              2 |            3 |             1 |            1 |                 2 |                  2 |                              1 |                          1 |
-|            9 |                   3 |              3 |            1 |             1 |            1 |                 2 |                  2 |                              1 |                          1 |
-|           10 |                   1 |              3 |            2 |             1 |            1 |                 2 |                  2 |                              1 |                          1 |
-|           11 |                   1 |              1 |            3 |             1 |            2 |                 2 |                  2 |                              2 |                          2 |
-|           12 |                   1 |              3 |            1 |             2 |            1 |                 2 |                  1 |                              1 |                          1 |
-|           13 |                   2 |              1 |            2 |             1 |            1 |                 2 |                  2 |                              2 |                          2 |
+| Test Case ID   | `C_req_track_edges` | `C_cart_slots` | `C_cart_cap` | `C_req_count` | `C_req_when` | `C_req_same_time` | `C_req_same_track` | `C_req_sum_weight_gt_cart_cap` | `C_req_weight_gt_cart_cap` |
+| :------------: | :-----------------: | :------------: | :----------: | :-----------: | :----------: | :---------------: | :----------------: | :----------------------------: | :------------------------: |
+|            `1` |                   1 |              1 |            2 |             1 |            1 |                 2 |                  2 |                              1 |                          1 |
+|            `2` |                   1 |              2 |            1 |             2 |            2 |                 1 |                  1 |                              2 |                          2 |
+|            `3` |                   1 |              3 |            1 |             1 |            1 |                 2 |                  2 |                              2 |                          2 |
+|            `4` |                   2 |              1 |            3 |             2 |            1 |                 1 |                  1 |                              1 |                          1 |
+|            `5` |                   2 |              2 |            2 |             1 |            2 |                 2 |                  2 |                              1 |                          2 |
+|            `6` |                   2 |              3 |            1 |             2 |            2 |                 1 |                  2 |                              1 |                          1 |
+|            `7` |                   3 |              1 |            2 |             2 |            2 |                 1 |                  1 |                              2 |                          2 |
+|            `8` |                   3 |              2 |            3 |             1 |            1 |                 2 |                  2 |                              1 |                          1 |
+|            `9` |                   3 |              3 |            1 |             1 |            1 |                 2 |                  2 |                              1 |                          1 |
+|           `10` |                   1 |              3 |            2 |             1 |            1 |                 2 |                  2 |                              1 |                          1 |
+|           `11` |                   1 |              1 |            3 |             1 |            2 |                 2 |                  2 |                              2 |                          2 |
+|           `12` |                   1 |              3 |            1 |             2 |            1 |                 2 |                  1 |                              1 |                          1 |
+|           `13` |                   2 |              1 |            2 |             1 |            1 |                 2 |                  2 |                              2 |                          2 |
+
+
+## Pokrytí automatizovanými testy
+
+Automatizované testy se nachází v souboru `cartctl/cartctl_test.py` ve třídě
+`TestCartRequests`. Některé z testů odhalily chyby v implementaci, které byly
+opraveny v souboru `cartctl/cartctl_fixed.py`, tj. v této verzi implementace
+všechy testy prochází. Pro provedené změny vizte
+`diff -u cartctl/cartctl.py cartctl/cartctl_fixed.py`.
+
+Tabulka níže ukazuje, který test (tj. která metoda v testovací třídě) pokrývá
+který testovací případ z rozhodovací tabulky.
+
+| Metoda                       | Testovací případ |
+| :--------------------------: | :--------------: |
+| `test_no_request`            |              `1` |
+| `test_process_basic_request` |              `2` |
+| `test_process_prio_request`  |              `3` |
+| `test_no_free_slots`         |              `4` |
+| `test_no_capacity`           |              `5` |
+
+Tabulka níže ukazuje, který test (tj. která metoda v testovací třídě) pokrývá
+který testovací případ z tabulky kombinací dvojic charakteristik.
+
+| Metoda                       | Testovací případ |
+| :--------------------------: | :--------------: |
+| `test_combine_1`             |              `1` |
+| `test_combine_2`             |              `2` |
+| `test_combine_3`             |              `3` |
+| `test_combine_4`             |              `4` |
+| `test_combine_5`             |              `5` |
+| `test_combine_6`             |              `6` |
+| `test_combine_7`             |              `7` |
+| `test_combine_8`             |              `8` |
+| `test_combine_9`             |              `9` |
+| `test_combine_10`            |             `10` |
+| `test_combine_11`            |             `11` |
+| `test_combine_12`            |             `12` |
+| `test_combine_13`            |             `13` |
