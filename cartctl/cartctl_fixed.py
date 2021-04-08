@@ -143,10 +143,20 @@ class CartCtl:
                 cargo_req.set_priority()
         self.sort_requests()
 
+    def check_prio_requests(self) -> None:
+        """ throws an exception if there are prioritised requests waiting too long """
+        curr_time = self.time()
+        for cargo_req in self.requests:
+            if curr_time - cargo_req.born >= 60 + 60:
+                raise LongPrioRequestError(f'A request waits too long: {curr_time - cargo_req.born} time units.')
+
     def find_prio_request(self):
-        """ return prioritized Load waiting in requests, or None. """
+        """ return prioritized requests, or None. """
         for cargo_req in self.requests:
             if cargo_req.prio:
+                return cargo_req
+        for cargo_req in self.cart.slots:
+            if cargo_req and cargo_req.prio:
                 return cargo_req
         return None
 
@@ -154,6 +164,7 @@ class CartCtl:
         """ main controlling loop """
         # update environment
         self.update_prio_requests()
+        self.check_prio_requests()
         # check environment
         cargo_req = self.find_prio_request()
         if cargo_req:
@@ -164,11 +175,10 @@ class CartCtl:
         if slot != -1:
             # should be scheduled for unloading
             return
-        if self.status != Status.UnloadOnly:
-            slot = self.try_load_here_single()
-            if slot != -1:
-                # should be scheduled for loading
-                return
+        slot = self.try_load_here_single()
+        if slot != -1:
+            # should be scheduled for loading
+            return
 
         # nothing for load or unload at this station
 
